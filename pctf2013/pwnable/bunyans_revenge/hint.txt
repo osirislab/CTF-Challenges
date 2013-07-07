@@ -1,0 +1,10 @@
+http://pastebin.com/RGEr9Tdb
+
+<+r> Niiiice, SanityHero solves bunyan's revenge!
+<+r> Hope you enjoyed it :-) 
+...
+< p> So, I assume the bug has already been reported for real?
+<+r> Nope, we'll be doing that after the CTF :-) 
+...
+< p> Definitely an interesting flavor with a couple of "real" bugs as challenges. Enjoy it
+< p> so did any of you guys try it on golang.org?

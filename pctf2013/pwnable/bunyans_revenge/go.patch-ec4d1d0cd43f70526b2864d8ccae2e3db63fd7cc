@@ -1,0 +1,103 @@
+diff -r a7414a294dcb src/cmd/5g/cgen.c
+--- a/src/cmd/5g/cgen.c	Fri Apr 19 12:00:40 2013 -0700
++++ b/src/cmd/5g/cgen.c	Fri Apr 19 21:03:47 2013 +0000
+@@ -694,20 +694,20 @@
+ 
+ 	case ODOTPTR:
+ 		cgen(nl, res);
++		// explicit check for nil if struct is large enough
++		// that we might derive too big a pointer.
++		if(nl->type->type->width >= unmappedzero) {
++			regalloc(&n1, types[tptr], N);
++			gmove(res, &n1);
++			regalloc(&n2, types[TUINT8], &n1);
++			n1.op = OINDREG;
++			n1.type = types[TUINT8];
++			n1.xoffset = 0;
++			gmove(&n1, &n2);
++			regfree(&n1);
++			regfree(&n2);
++		}
+ 		if(n->xoffset != 0) {
+-			// explicit check for nil if struct is large enough
+-			// that we might derive too big a pointer.
+-			if(nl->type->type->width >= unmappedzero) {
+-				regalloc(&n1, types[tptr], N);
+-				gmove(res, &n1);
+-				regalloc(&n2, types[TUINT8], &n1);
+-				n1.op = OINDREG;
+-				n1.type = types[TUINT8];
+-				n1.xoffset = 0;
+-				gmove(&n1, &n2);
+-				regfree(&n1);
+-				regfree(&n2);
+-			}
+ 			nodconst(&n1, types[TINT32], n->xoffset);
+ 			regalloc(&n2, n1.type, N);
+ 			regalloc(&n3, types[tptr], N);
+diff -r a7414a294dcb src/cmd/6g/cgen.c
+--- a/src/cmd/6g/cgen.c	Fri Apr 19 12:00:40 2013 -0700
++++ b/src/cmd/6g/cgen.c	Fri Apr 19 21:03:47 2013 +0000
+@@ -888,18 +888,18 @@
+ 
+ 	case ODOTPTR:
+ 		cgen(nl, res);
++		// explicit check for nil if struct is large enough
++		// that we might derive too big a pointer.
++		if(nl->type->type->width >= unmappedzero) {
++			regalloc(&n1, types[tptr], res);
++			gmove(res, &n1);
++			n1.op = OINDREG;
++			n1.type = types[TUINT8];
++			n1.xoffset = 0;
++			gins(ATESTB, nodintconst(0), &n1);
++			regfree(&n1);
++		}
+ 		if(n->xoffset != 0) {
+-			// explicit check for nil if struct is large enough
+-			// that we might derive too big a pointer.
+-			if(nl->type->type->width >= unmappedzero) {
+-				regalloc(&n1, types[tptr], res);
+-				gmove(res, &n1);
+-				n1.op = OINDREG;
+-				n1.type = types[TUINT8];
+-				n1.xoffset = 0;
+-				gins(ATESTB, nodintconst(0), &n1);
+-				regfree(&n1);
+-			}
+ 			ginscon(optoas(OADD, types[tptr]), n->xoffset, res);
+ 		}
+ 		break;
+diff -r a7414a294dcb src/cmd/8g/cgen.c
+--- a/src/cmd/8g/cgen.c	Fri Apr 19 12:00:40 2013 -0700
++++ b/src/cmd/8g/cgen.c	Fri Apr 19 21:03:47 2013 +0000
+@@ -750,18 +750,18 @@
+ 		if(!isptr[t->etype])
+ 			fatal("agen: not ptr %N", n);
+ 		cgen(nl, res);
++		// explicit check for nil if struct is large enough
++		// that we might derive too big a pointer.
++		if(nl->type->type->width >= unmappedzero) {
++			regalloc(&n1, types[tptr], res);
++			gmove(res, &n1);
++			n1.op = OINDREG;
++			n1.type = types[TUINT8];
++			n1.xoffset = 0;
++			gins(ATESTB, nodintconst(0), &n1);
++			regfree(&n1);
++		}
+ 		if(n->xoffset != 0) {
+-			// explicit check for nil if struct is large enough
+-			// that we might derive too big a pointer.
+-			if(nl->type->type->width >= unmappedzero) {
+-				regalloc(&n1, types[tptr], res);
+-				gmove(res, &n1);
+-				n1.op = OINDREG;
+-				n1.type = types[TUINT8];
+-				n1.xoffset = 0;
+-				gins(ATESTB, nodintconst(0), &n1);
+-				regfree(&n1);
+-			}
+ 			nodconst(&n1, types[tptr], n->xoffset);
+ 			gins(optoas(OADD, types[tptr]), &n1, res);
+ 		}

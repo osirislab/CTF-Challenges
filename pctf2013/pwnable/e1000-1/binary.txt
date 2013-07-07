@@ -1,0 +1,3 @@
+The binary is 350M~ so instead of committing it here, you can download it here:
+
+ http://play.plaidctf.com/files/e1000-acefaf7e94e5787ba93ed6bbf608e049c81377b9
