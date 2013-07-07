@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+   <head>
+       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+       <title>Plaid CTF 2013 :: Simple interface</title>
+       <link rel="stylesheet" type="text/css" href="css/style.css">
+       <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+       <script src="js/lib/jquery.cookie.js"></script>
+       <style>
+       .problem {
+        border: 2px solid #A8A8A8;
+        margin: 10px;
+        padding: 5px;
+       }
+       </style>
+       <script>
+             $.ajaxSetup({
+                 headers: {'X-Auth': $.cookie('auth')},
+                 cache: false
+             });
+
+             function submitKey(obj, problem_id) {
+                 var key = obj.prop('value');
+                 $.ajax("/problems/submit", { 
+                     data: "data="+encodeURIComponent(JSON.stringify({'problem': problem_id, 'key': key})),
+                     type: "POST",
+                     processData: false,
+                     dataType: "json", 
+                     error: function(jqXHR, textStatus, errorThrown) {
+                         if (jqXHR.responseText.length > 50) {
+                             document.location.href = '/#login';
+                         }
+                         else {
+                             alert(jqXHR.responseText);
+                         }
+                     },
+                     success: function(data, textStatus, jqXHR) {
+                         alert(data.msg);
+                     }
+                 });
+             }
+        </script>
+    </head>
+    <body>
+    <h2>You have solved:</h2>
+    
+    literally nothing
+    
+    <hr />
+    <h2>Opened problems:</h2>
+    
+        <div class="problem">
+            <div class="name">cnot</div>
+            <div class="value">450</div>
+            <div class="categroy">binary</div>
+            <div class="description">We lost the passcode again<br />what was it?<br />
+<a href="http://play.plaidctf.com/files/cnot-41ca1c7765d55547fd440d041115430fbfa9afca" target="_blank">Download</a></div>
+            <div class="submission">
+                <input id="submit_1" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_1), 1);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">compression</div>
+            <div class="value">250</div>
+            <div class="categroy">crypto</div>
+            <div class="description">We managed to get the source code for an encryption service running at 54.234.224.216:4433.<br /> <a href="http://play.plaidctf.com/files/compression.py-50b9fa8a3c3e8a5bb2e6436d8faba8773b6725b2" target="_blank">Download</a></div>
+            <div class="submission">
+                <input id="submit_2" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_2), 2);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">Unnnnlucky</div>
+            <div class="value">20</div>
+            <div class="categroy">misc</div>
+            <div class="description">Where does The Plague hide his money?</div>
+            <div class="submission">
+                <input id="submit_3" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_3), 3);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">ropasaurusrex</div>
+            <div class="value">200</div>
+            <div class="categroy">pwnable</div>
+            <div class="description">ROP ROP ROP ROP ROP ROP ROP<br />
+<a href="http://play.plaidctf.com/files/ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d" target="_blank">Download binary</a><br /><a href="http://play.plaidctf.com/files/libc.so.6-f85c96c8fc753bfa75140c39501b4cd50779f43a" target="_blank">Download libc</a><br />54.234.151.114:1025</div>
+            <div class="submission">
+                <input id="submit_4" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_4), 4);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">kavihk</div>
+            <div class="value">400</div>
+            <div class="categroy">binary</div>
+            <div class="description">YOU RIKE PRAY GAME?<br/>
+<a href="http://play.plaidctf.com/files/kavihk.tgz-27158df97cab0e6c316db12947c3cef8d9e8ad5f" target="_blank">kavihk.tgz</a>
+<br />
+HINT FOR KAVIHK: There is a bruteforce of much less than a billion things.<br />
+HINT FOR KAVIHK: You do not need to hand-optimize math, and my solution runs in under 5 min on my laptop.
+</div>
+            <div class="submission">
+                <input id="submit_5" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_5), 5);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">cone</div>
+            <div class="value">250</div>
+            <div class="categroy">binary</div>
+            <div class="description">Someone certainly has a sick sense of humor... We believe a prisoner has left an encoded message in this program. Can you get it out for us? <br/>
+<a href="http://play.plaidctf.com/files/cone-f5e7f78b5b45f6e81205c133e15b8a219339bb29" target="_blank">cone</a><br />
+<strong>Note:</strong> if you solved the version of this problem posted before 04:30 UTC (available <a href="http://play.plaidctf.com/files/cone-454b6cccf8914aac354e966be45eea92b97c972e" target="_blank">here</a>), contact mserrano at freenode for verification of your key.</div>
+            <div class="submission">
+                <input id="submit_6" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_6), 6);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">cyrpto</div>
+            <div class="value">100</div>
+            <div class="categroy">crypto</div>
+            <div class="description">One of us devised a new cryptosystem! Can you break it?<br/>
+<a href="http://play.plaidctf.com/files/client.py-332566945e6cc0126dcfb5d5d56122f85a38a890">client.py</a> running at 54.234.77.50:13797 or 54.235.50.140:13797.</div>
+            <div class="submission">
+                <input id="submit_7" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_7), 7);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">giga</div>
+            <div class="value">250</div>
+            <div class="categroy">crypto</div>
+            <div class="description">"We found a wonderful new service you can use to secure all of your files with, though it is still in beta. <br/>
+The source is available at <a href="http://play.plaidctf.com/files/giga.py-48cdf0eda78e80b8ee42a0d2051b9fd403b37b1a">giga.py</a>.  And the service can be found at 184.73.59.25 on port 4321"</div>
+            <div class="submission">
+                <input id="submit_8" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_8), 8);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">blech</div>
+            <div class="value">200</div>
+            <div class="categroy">crypto</div>
+            <div class="description">You get arbitrary code execution.... as long as it's code we approve of.<br/>
+Source available at <a href="http://play.plaidctf.com/files/blech.py-b9e7ca176ba529e42160372d140ac144b31b3b9a" target="_blank">blech.py</a><br />Service running on 54.234.73.81 port 1234</div>
+            <div class="submission">
+                <input id="submit_9" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_9), 9);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">usbdude</div>
+            <div class="value">350</div>
+            <div class="categroy">forensics</div>
+            <div class="description">I broke a USB cable while making this problem... you better enjoy it.<br />
+<a href="http://play.plaidctf.com/files/usbdude.pcap-25abb154182cd183b0667ef0bd38577c58ea4e08" target="_blank">usbdude.pcap</a>.<br /><strong>HINT:</strong> I would suggest static reversing from the entry point, or alternatively there appears to be a relevant string to google. <br />Hint: If you think r29 stays constant, then look up the ADIW instruction.</div>
+            <div class="submission">
+                <input id="submit_10" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_10), 10);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">cheap</div>
+            <div class="value">100</div>
+            <div class="categroy">misc</div>
+            <div class="description">What could this mysterious architecture be?<br/>
+All of these are the same:<br/>
+50.17.171.79:9998<br/>
+54.224.183.192:9998<br/> 
+184.73.107.54:9998<br/> 
+54.234.231.14:9998<br/> 
+54.224.176.148:9998<br />
+<strong>Note:</strong>Apparently GNU netcat doesn't support a half-duplex shutdown, so you should use OpenBSD netcat or connect using python or something for cheap.
+<br>
+The flag is <em>not</em> an architecture.
+<br>The goal is to get a shell</br></div>
+            <div class="submission">
+                <input id="submit_11" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_11), 11);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">three_eyed_fish</div>
+            <div class="value">100</div>
+            <div class="categroy">binary</div>
+            <div class="description">This binary is totally legit we promise <a href="http://play.plaidctf.com/files/three_eyed_fish-ddeeb1eb3270b8e2c2bedabd3492bab5e83d584c" target="_blank">three_eyed_fish</a>.</div>
+            <div class="submission">
+                <input id="submit_12" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_12), 12);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">bunyans_revenge</div>
+            <div class="value">400</div>
+            <div class="categroy">pwnable</div>
+            <div class="description">My friend patched a bug in go: <a href="http://play.plaidctf.com/files/go.patch-ec4d1d0cd43f70526b2864d8ccae2e3db63fd7cc">go.patch</a>.  Could you get me a shell on this unpatched site?  <a href="http://50.17.64.205:8080/" target="blank_">Server</a>, <a href="http://pastebin.com/RGEr9Tdb">Hint</a>.</div>
+            <div class="submission">
+                <input id="submit_13" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_13), 13);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">dynrpn</div>
+            <div class="value">250</div>
+            <div class="categroy">pwnable</div>
+            <div class="description">"`dc` runs too slowly for my tastes.
+<a href="http://play.plaidctf.com/files/dynrpn-55ac9afa75b1cbad2daa431f1d853079d5983eed">dynrpn</a> running at 107.22.129.12:49630</div>
+            <div class="submission">
+                <input id="submit_14" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_14), 14);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">pork</div>
+            <div class="value">250</div>
+            <div class="categroy">pwnable</div>
+            <div class="description">Totally better than Tor: <a href="http://play.plaidctf.com/files/pork-8c2fdf93e211c7358e0192a24bc951843da672b1" target="_blank">pork</a> running at 54.235.20.205:33227</div>
+            <div class="submission">
+                <input id="submit_15" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_15), 15);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">secure_reader</div>
+            <div class="value">150</div>
+            <div class="categroy">pwnable</div>
+            <div class="description">I can't figure out how to read the flag :-(  ssh to 54.224.109.162</div>
+            <div class="submission">
+                <input id="submit_16" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_16), 16);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">pyjail</div>
+            <div class="value">400</div>
+            <div class="categroy">misc</div>
+            <div class="description">Sandboxing python: it's what all the cool kids are doing: 54.234.158.110:9997<br />
+Download <a href="http://play.plaidctf.com/files/pyjail.py-ae426f39b325ed99123f590c8a8bbe224fefb406" target="_blank">pyjail.py</a><br />
+Python 2.6.6<br />
+default Debian Sqeeze with apt-get install python<br />
+Should be same setup as python on the secure_reader machine</div>
+            <div class="submission">
+                <input id="submit_17" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_17), 17);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">cat_rar</div>
+            <div class="value">150</div>
+            <div class="categroy">forensics</div>
+            <div class="description">"Meow meow mw mw m.
+<br/>
+<a href="http://play.plaidctf.com/files/cat.rar-6aade6ef290207c64c0a4c8094e28ec12138793d" target="_blank">cat.rar</a></div>
+            <div class="submission">
+                <input id="submit_18" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_18), 18);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">hypercomputer-1</div>
+            <div class="value">100</div>
+            <div class="categroy">binary</div>
+            <div class="description">For those who didn't play plaidCTF 2012: &quot;supercomputer&quot; was a reversing challenge that computed flags using really silly math (like adding in a loop instead of mulitplication). hypercomputer is easier... if you do it right :P<br/>
+ssh to 54.224.174.166</div>
+            <div class="submission">
+                <input id="submit_19" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_19), 19);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">hypercomputer-2</div>
+            <div class="value">150</div>
+            <div class="categroy">binary</div>
+            <div class="description">For those who didn't play plaidCTF 2012: &quot;supercomputer&quot; was a reversing challenge that computed flags using really silly math (like adding in a loop instead of mulitplication). hypercomputer is easier... if you do it right :P<br/>
+ssh to 54.224.174.166<br />
+HINT: You may notice that hypercomputer-2 is different... You should not be pwning or doing privilege escalation to solve it, though.</div>
+            <div class="submission">
+                <input id="submit_20" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_20), 20);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">hypercomputer-3</div>
+            <div class="value">100</div>
+            <div class="categroy">binary</div>
+            <div class="description">For those who didn't play plaidCTF 2012: &quot;supercomputer&quot; was a reversing challenge that computed flags using really silly math (like adding in a loop instead of mulitplication). hypercomputer is easier... if you do it right :P<br/>
+ssh to 54.224.174.166<br />
+HINT: hypercomputer-3/4 were designed to be solved through a combination of static and dynamic reversing; either alone is not enough!</div>
+            <div class="submission">
+                <input id="submit_21" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_21), 21);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">drmless</div>
+            <div class="value">250</div>
+            <div class="categroy">binary</div>
+            <div class="description">You should check out our cool stories, bros.<br/>
+<a href="http://play.plaidctf.com/files/drmless.tgz-e9f85853ac856d7ed7a5a8c6e807955f07bbfa7a" target="_blank">drmless.tgz</a></div>
+            <div class="submission">
+                <input id="submit_22" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_22), 23);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">charsheet</div>
+            <div class="value">150</div>
+            <div class="categroy">web</div>
+            <div class="description">My friend is in my D&D  campaign - could you get me his character name? He administrates <a href="http://54.234.77.50/" target="_blank">this site</a>.
+
+<br>
+Or <a href="http://54.235.50.140/">here (faster)</a>.</div>
+            <div class="submission">
+                <input id="submit_23" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_23), 24);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">Prove It</div>
+            <div class="value">150</div>
+            <div class="categroy">misc</div>
+            <div class="description"><p>We've been reading about bitcoins -- 184.73.80.194:9001</p>
+<p>Hint: The answer isn't brute forcing.</p>
+<a href="http://play.plaidctf.com/files/proveit.py-8115d72c40c443f68335229c659f4cde9126eb2c">Source</a></div>
+            <div class="submission">
+                <input id="submit_24" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_24), 25);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">servr</div>
+            <div class="value">400</div>
+            <div class="categroy">web</div>
+            <div class="description">"We got a shell on this crazy guy's web server, but he's running some really weird software :-(  Help me get higher privileges please?  SSH to 184.72.197.171  (see your profile for creds).
+<br>
+<a href="http://play.plaidctf.com/files/servr.tar.bz2-8e3448ee38dd7e723046ad91bd9be04343c780ae" target="_blank">This might come in handy.</a>
+<br>
+Hint: Corrupting heap free chunk metadata is shockingly easy in the SLUB allocator.<br>
+Hint: Try controlling <a href="http://lxr.linux.no/linux+v3.8.7/include/linux/fs.h#L773" target="_blank">f_op</a> in <a href="http://lxr.linux.no/linux+v3.8.7/include/linux/fs.h#L761" target="_blank">struct file</a> or something.<br></div>
+            <div class="submission">
+                <input id="submit_25" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_25), 26);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">e1000-1</div>
+            <div class="value">250</div>
+            <div class="categroy">pwnable</div>
+            <div class="description">Pwn this thing :)<br />
+<a href="http://play.plaidctf.com/files/e1000-acefaf7e94e5787ba93ed6bbf608e049c81377b9" target="_blank">Download</a><br />
+IP: 107.22.133.145<br />
+HINT: There shouldn't be any (intended) bugs below the application layer</div>
+            <div class="submission">
+                <input id="submit_26" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_26), 27);">Submit</button>
+            </div>
+        </div>
+    
+        <div class="problem">
+            <div class="name">Prime Factorizer</div>
+            <div class="value">0</div>
+            <div class="categroy">misc</div>
+            <div class="description">Find the Prime Factorizer.<br />
+This is an event quest. It does not award you any points.<br /><br />
+Once you completed each quest, talk to its NPC to gather clues. These clues are tiny URLs containing secrets. Use <a href="https://code.google.com/p/python-secret-sharing/" target="_blank">python-secret-sharing</a> tool to recover the message, which will reveal the way to get the Prime Factorizer.<br />
+<u>You have to collect at least 14 secrets!</u></div>
+            <div class="submission">
+                <input id="submit_27" type="text" size="32">
+                <button type="button" onclick="submitKey($(submit_27), 29);">Submit</button>
+            </div>
+        </div>
+    
+    </body>
+</html>
+
+
