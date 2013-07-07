@@ -1,0 +1,49 @@
+#!/usr/bin/python
+import os
+import struct
+import SocketServer
+import zlib
+from Crypto.Cipher import AES
+from Crypto.Util import Counter
+
+# Not the real keys!
+ENCRYPT_KEY = '0000000000000000000000000000000000000000000000000000000000000000'.decode('hex')
+# Determine this key.
+# Character set: lowercase letters and underscore
+PROBLEM_KEY = 'XXXXXXXXXXXXXXXXXXXX'
+
+def encrypt(data, ctr):
+    aes = AES.new(ENCRYPT_KEY, AES.MODE_CTR, counter=ctr)
+    return aes.encrypt(zlib.compress(data))
+
+class ProblemHandler(SocketServer.StreamRequestHandler):
+    def handle(self):
+        nonce = os.urandom(8)
+        self.wfile.write(nonce)
+        ctr = Counter.new(64, prefix=nonce)
+        while True:
+            data = self.rfile.read(4)
+            if not data:
+                break
+
+            try:
+                length = struct.unpack('I', data)[0]
+                if length > (1<<20):
+                    break
+                data = self.rfile.read(length)
+                data += PROBLEM_KEY
+                ciphertext = encrypt(data, ctr)
+                self.wfile.write(struct.pack('I', len(ciphertext)))
+                self.wfile.write(ciphertext)
+            except:
+                break
+
+class ReusableTCPServer(SocketServer.ForkingMixIn, SocketServer.TCPServer):
+    allow_reuse_address = True
+
+if __name__ == '__main__':
+    HOST = '0.0.0.0'
+    PORT = 4433
+    SocketServer.TCPServer.allow_reuse_address = True
+    server = ReusableTCPServer((HOST, PORT), ProblemHandler)
+    server.serve_forever()

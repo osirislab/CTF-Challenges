@@ -1,0 +1,37 @@
+import random
+# bleh, figuring out how to decrypt stuff is hard...
+# good thing there's a service running at wherever the problem description says
+
+ciphertext = (19139950631257094109974817512950844945236146526899325826152393111265339856332117664760030665587057736341341088217L, 698145134021698598302443232564752607941576857199606106641450906890460571956580687935633542046758257396595842622837937744732920113344374182219623260691576508226597259307160898152603847317630021751538L, 375)
+pubkey = 914036124605072095896498645040317110444677693681625101303036515307269256964695517984683462742136579499746530214988587637694496516580350919995355407744891125814950650516684386468562425056693756001673L
+
+def numbits(k):
+    if k == 1:
+        return 1
+    return int(math.ceil(math.log(k,2))) + (1 if k % 2 == 0 else 0)
+
+def strtoint(s):
+	if len(s) == 0:
+		return 0
+	if len(s) == 1:
+		return ord(s[0])
+	return (ord(s[0]) << (8 * len(s[1:]))) | strtoint(s[1:])
+
+def inttostr(s):
+	if s == 0:
+		return ""
+	c = chr(s & 0xFF)
+	return inttostr(s >> 8) + c
+
+def encrypt(m, N):
+    L = numbits(m)
+    random.seed()
+    r = random.randint(2, N-1)
+    x = pow(r, 2, N)
+    y = x
+    l = 0
+    for k in range(0, L):
+        l = l << 1
+        l |= y & 1
+        y = pow(y, 2, N)
+    return (m ^ l, y, L)

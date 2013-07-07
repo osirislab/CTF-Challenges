@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+import os
+from Crypto.PublicKey import RSA
+from Crypto.Hash import MD5
+import SocketServer
+import threading
+import time
+
+rbuf = os.urandom(4096)
+hr = MD5.new()
+
+flag = open("secret").read()
+
+def rng(n):
+  global rbuf
+  rand = rbuf[:n]
+  rbuf = rbuf[n:]
+  while (len(rbuf) < 4096):
+    hr.update(os.urandom(4096))
+    rbuf += rbuf + hr.hexdigest()
+  return rand
+
+
+class threadedserver(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
+    pass
+
+class incoming(SocketServer.BaseRequestHandler):
+  def handle(self):
+    cur_thread = threading.current_thread()
+    welcome = """
+*******************************************
+*** Welcome to GIGA! ***
+**the super secure key management service**
+*******************************************
+
+We are generating an RSA keypair for you now.
+(Please be sure to move your mouse to populate the entropy stream)
+"""
+    self.request.send(welcome)
+    rsa = RSA.generate(1024,rng)
+    print getattr(rsa,'n')
+    #make it look like we're doing hardcore crypto
+    for i in xrange(20):
+      time.sleep(0.2)
+      self.request.send(".")
+    self.request.send("\nCongratulations! Key created!\n")
+
+    #no one will ever be able to solve our super challenge!
+    self.request.send("To prove how secure our service is ")
+    self.request.send("here is an encrypted flag:\n")
+    self.request.send("==================================\n")
+    self.request.send(rsa.encrypt(flag,"")[0].encode("hex"))
+    self.request.send("\n==================================\n")
+    self.request.send("Find the plaintext and we'll give you points\n\n")
+
+    #now they can be safe from the FBI too!
+    while True:
+      self.request.send("\nNow enter a message you wish to encrypt: ")
+      m = self.request.recv(1024)
+      self.request.send("Your super unreadable ciphertext is:\n")
+      self.request.send("==================================\n")
+      self.request.send(rsa.encrypt(m,"")[0].encode("hex"))
+      self.request.send("\n==================================\n")
+
+server = threadedserver(("0.0.0.0", 4321), incoming)
+server.timeout = 4
+server_thread = threading.Thread(target=server.serve_forever)
+server_thread.daemon = True
+server_thread.start()
+
+server_thread.join()
