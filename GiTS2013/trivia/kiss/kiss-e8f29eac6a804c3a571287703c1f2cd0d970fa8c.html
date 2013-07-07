@@ -1,0 +1,268 @@
+<html><head><title>Kissed A Girl?</title></head>  
+<body bgcolor="#ffffff">
+<pre>    
+From: bmc@kiowa.eng.sun.com (Bryan Cantrill)      
+Subject: Re: But why?        
+Date: 1996/10/29    
+Message-ID: <5543dq$qjd@engnews2.Eng.Sun.COM>         
+references: <54990q$n5e@caip.rutgers.edu>    
+organization: Brown University         
+keywords: none        
+newsgroups: comp.sys.sun.hardware       
+         
+
+   
+In article <54990q$n5e@caip.rutgers.edu>,    
+David S. Miller <davem@caip.rutgers.edu> wrote:     
+>bacon@mtu.edu (Jeff Bacon) writes:    
+>       
+>Since I have been able to find an intelligent posting in this thread,         
+>I will respond to it and explain what I can as chief architect of the
+>SparcLinux port.   
+> 
+>> of course, then, the obvious question that comes up is WHY is it that        
+>> solaris has such higher overhead costs in doing things?        
+>>      
+>> obviously there's more code to work through to do any given thing.  
+>> someone must have thought it necessary. but...why? 
+>>       
+>> obviously it's got lots of extra crud from SVR4. why not pitch it?       
+>>  
+> 
+>The answer to this is pretty straight forward actually.  The main         
+>points of interest are:      
+>       
+>1) Solaris's networking stack, in all of it's incantations (one breed
+>   of it was the Lochman code in 2.0, 2.1 and early 2.2 releases, then    
+>   it was rewritten by another company for 2.3 onward) is SVR4 streams 
+>   based.  The performance penalty, even with lots of tricks, for   
+>   using a SVR4 streams networking architecture is well known.
+>   Someone who happens to have a 2.2 Solaris CD around, or even a 2.3  
+>   Solaris CD, should install that thing and run lmbench on it to see   
+>   what "pure Streams based networking" without the tricks can really        
+>   do.    
+>  
+>   Linux on the other hand has a "no bullshit" networking architecture     
+>   that is not streams based.  Yet we also take advantage of the many       
+>   known networking performance enhancements that exist in the      
+>   research realm (ie. copy/checksum, the van jacobson hacks, etc.)         
+>   
+>2) Linux is light weight, Solaris is a pig.    
+>
+>   One of the most critical things that contributes to performance   
+>   is cache/tlb footprint of the operating system.  Linux being small
+>   (yet still provide a full POSIX unix environment!) solves the cache   
+>   footprint problem in a big way.  I've solved the TLB footprint  
+>   using Linux's small size and a Sparc specific trick.   
+>    
+>   The MMU's present on the sun4m/sun4d line of Sun machines possess a    
+>   three level page table scheme.  Using this, one has the capability
+>   to use the normal 4k sizes pages, and also larger 256k and 16MB     
+>   sized pages.  The average TLB on these machines has 32 or 64
+>   entries to cache these pte's, if the entry is not in the TLB     
+>   hardware has to go out to the memory bus and walk the software page 
+>   tables to "reload" the TLB so that the translation can be         
+>   satisfied.     
+>         
+>   This "miss processing" is very expensive.  Under SunOS and Solaris,     
+>   they do not take advantage of the 16MB and 256k sized pages to map    
+>   the operating system.  Therefore those two systems take many misses    
+>   in the TLB during even the most rudimentary trap into the kernel.      
+>   However under Linux the TLB misses for the OS are quite minimal.    
+>   In fact I will gave an example:     
+>      
+>      On your average SparcClassic with a 32 entry TLB, consider such 
+>      a machine with 24MB of memory installed.  Under Linux I can map
+>      the entire operating system (sans IO device register mappings    
+>      and Lance Ethernet DMA) in 3 (count 'em, 3!) TLB entries.  These     
+>      3 entries are enough to allow the kernel to access an arbitrary        
+>      physical page from kernel space.      
+>    
+>      Under Solaris, the OS would need 3 + (24MB / 256K) + (24MB / 4K)  
+>      TLB entries to map this same amount of space.  For a great many      
+>      number of operations, it is quite easy for an OS with this page     
+>      table strategy to blow the entire user context out of the
+>      hardware TLB.  Which in turn means more processor stalls (in   
+>      fact many) for both the user level processes and the operating   
+>      system.  
+>       
+>      Result?  Severe degradation in performance for the latter      
+>      scheme. 
+>      
+>3) Every BSD and SVR4 based system today, except for Linux, has a very        
+>   broken System call mechanism.     
+>       
+>   You'd think that when people put together function call conventions  
+>   for a particular processor, the OS people would take a look at this         
+>   and find a way to take advantage of this.  In fact, believe it or       
+>   not, they have not to this very day.     
+>
+>   Linux from day one, takes advantage of the procedure call     
+>   conventions on a particular architecture so that it can process         
+>   system calls in the most expediant way possible.  I will give 
+>   an example on the Sparc to prove this:        
+>       
+>    Consider your average 3 argument system call.  The user level      
+>    code does something like this:
+>         
+>	mov	%arg0, %o0  
+>	mov	%arg1, %o1    
+>	mov	%arg2, %o3     
+>	mov	SYSTEM_CALL_NUMBER, %g1      
+>	t	SYSCALL_TRAP     
+>        
+>    At this point control reaches the operating system, it must         
+>    prepare to handle this request from the user.  On the Sparc, this  
+>    is either a two step or a three step process depending upon       
+>    whether you are doing it in the traditional broken UNIX way or the   
+>    clean, fast, and superior Linux way.  First I will show the Linux       
+>    method for doing this:        
+>
+>	1) Step one, jump onto the kernel stack for this task        
+>	   and make sure the kernel has a register window to        
+>	   operate in safely.     
+> 
+>	   For Linux the code path for this runs at ~18 instructions         
+>	   for the common case (the kernel already has a valid 
+>	   register to use so now saving needs to be done).  It runs     
+>	   at ~42 instructions for the second most common case (the     
+>	   kernels needs to allocate a new register window and the      
+>	   user has a valid stack pointer) and ~82 instructions for    
+>	   the least common case (kernel needs a window, user has      
+>	   an invalid stack pointer, thus the kernel needs to save     
+>	   the user's window into a special per-task save area).      
+>
+>	2) Take the system call number, check for valid value, use
+>	   this to offset into a table of system call function ptrs.     
+>	   Move arguments into place and perform the syscall.        
+>
+>	   Basically this is a simple operations a looks something      
+>	   like:   
+>  
+>	sll	%g1, 2, %l4		! produce offset      
+>	ld	[%l7 + %g1], %l7	! syscall ptr base was in %l7 
+>	SAVE_ALL			! perform step #1 above      
+>	mov	%i0, %o0 
+>	mov	%i1, %o1 
+>	mov	%i2, %o2 
+>	mov	%i3, %o3     
+>	mov	%i4, %o4      
+>	jmp	%l7, %o7        
+>	 mov	%i5, %o5   
+>
+>	   That is it, that is the entire system call under Linux.       
+>     
+>    Under Solaris/SunOS things are wildly different.  Step one is    
+>    basically the same, but step 2 is disgustingly inefficient for      
+>    those systems.  Basically they do:
+>      
+>	2) Call common system_call() C function.    
+>       
+>	3) This routine allocates a "system call argument package"  
+>	   structure on the kernel stack.  This is wasteful because       
+>	   we already have all of this information in registers or 
+>	   in guarenteed save areas.      
+> 
+>	4) Then this routine determines the function to call, and       
+>	   passed this "package" of arguments to the routine.       
+>        
+>	5) Every system call which expects arguments then must     
+>	   "unpack" this structure to get at the copy of the arguments         
+>	   again highly inefficient.   
+>   
+>   For every system call the system performs, you eat this unnecessary     
+>   overhead under SunOS/Solaris, under Linux only the bare minimum is     
+>   performed to do the system call successfully. 
+> 
+>4) Solaris cannot even do it's own optimizations correctly because    
+>   SunPRO is a broken compiler.        
+>  
+>   I won't make such a statement without explaining this with real 
+>   facts, here goes.         
+>         
+>   A neat part of the Sparc ABI is that it leaves you with a few
+>   processor registers that the C compiler is not allowed to use     
+>   in the code it produces.  Two of which are "%g6" and "%g7".         
+>   A problem in unix kernels is that you are constantly accessing 
+>   the current tasks control structure ('proc' and 'uarea' on      
+>   traditional UNIX's, the 'task_struct" under Linux).  Hey, why         
+>   not put these pieces of information in those "extra" registers  
+>   and avoid the address computation all the time?  Yes, very   
+>   brilliant idea.     
+>     
+>   Under Solaris the trap entry code places the uarea and proc ptr     
+>   in %g6 and %g7.  Under Linux the trap entry code places the
+>   current processes task_struct in %g6.  Now here comes where the
+>   implementations differ.   
+>   
+>   Under Solaris all of the so called "locore" (basically all the         
+>   gook which has to be written in raw assembly) code can directly       
+>   take advantage of this.  However, the C code cannot do this
+>   because SunPRO lacks a way for you to tell the compiler that       
+>   "hey you don't need to load things, it's already in these     
+>    hard coded registers"  So they have the C code call these little       
+>   assembly stubs to get the values:  
+>  
+>	get_uarea:
+>		retl
+>		 mov	%g6, %o0
+>
+>	get_proc:
+>		retl
+>		 mov	%g7, %o0
+>
+>   That is gross, why even do the optimization in the first place?
+>
+>   Now GCC has a way to fully take advantage of such an optimization,
+>   basically all I have to do is put the following in a header file.
+>
+>	register struct task_struct *current asm("g6");
+>
+>   Tada, now GCC will fully understand what I have done for it.
+>   Under SparcLinux this optimization alone took away 115 instructions
+>   in the scheduler sources, and it took ~50 instructions out of the
+>   exit() handling, and it took ~65 instructions out of the fork()
+>   handling.
+>
+>So my question always is, in matters such as these.  Who are these
+>processor cycles for anyways, the kernel or the user?  Think about
+>this when you consider how much overhead is being saved from one OS to
+>another, and to what scale this is occurring.
+>
+>I hope that explains some of it, and gives people at least some sort
+>of idea of the kinds of things that makes Linux scream on just about
+>any hardware.  If people would like more explainations like the above,
+>I'd be more than happy to chat with you via email about it or
+>similar.  I love talking about performance issues on various
+>processors and systems.
+>
+>Oh, and one thing that has not been mentioned yet in this thread (and
+>yes NetBSD/OpenBSD both have this as well, good work guys).  That
+>SparcLinux kernel that gets all of this incredible performance runs on
+>both sun4c and sun4m machines.  Sun Engineers way back when scratched
+>their heads for months and couldn't figure out a way to pull it off
+>(you need a seperate kernel image depending upon whether you are
+>running on a sun4m or a sun4c, for SunOS/Solaris).  And on top of that
+>Linux obviously pulls it off efficiently.
+>
+>One final note.  When you have to deal with SunSOFT to report a bug,
+>how "important" do you have (ie. Fortune 500?) to be and how big of a
+>customer do you have to be (multi million dollar purchases?) to get
+>direct access to Sun's Engineers at Sun Quentin?  With Linux, all you
+>have to do is send me or one of the other SparcLinux hackers an email
+>and we will attend to your bug in due time.  We have too much pride in
+>our system to ignore you and not fix the bug.
+>
+>David S. Miller
+>davem@caip.rutgers.edu
+>
+
+Have you ever kissed a girl?
+
+- Bryan
+
+----------------------------------------------------------------------
+Bryan Cantrill, Solaris Performance.   bmc@eng.sun.com  (415) 786-3652
+
+</pre>
+</body></html>

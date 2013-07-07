@@ -1,0 +1,19 @@
+Students,
+
+We are currently seeking testers for MathServ, a revolutionary new program
+developed by the graduate students of our PL research lab.  If you would
+like to participate in the QA process, please connect to:
+
+    back2skool.2013.ghostintheshellcode.com:31337
+
+and try out the service.  Feedback may be provided by simply replying to
+this email.
+
+We appreciate the hard work of everyone involved, and would like to thank
+the NSF for their grant of $150,000 for this project.
+
+Thank you!
+
+                                            Regards,
+                                            Professor Grugq
+                                            Dept. of Software Assurance
