@@ -1,0 +1,7 @@
+This is like the typical... but the other one. Today is not a strong gale.
+
+RTXNWMbGNMMQYWOfRbWOMbHLRMTfUaRTXNMaXHbScaZMSZaNkNcHQKiaSfReZCGbWLjWMMaNSMMYWMOSUUdaRTbRRTMYUfMMcYfULXcNZHGQQEXUTZcNcYaNgVROSQTWXSLaTWNMWReYYfTTgNZbMYWHRMXaWHYbNcTCQMQQXWNMNGSWScWReZbfKZWJMJeMUGXMaeSHLQWbeGH
+
+Once you get the message, try here:
+nc dimvactf.0x90.eu 6789
+
