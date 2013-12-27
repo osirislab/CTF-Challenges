@@ -1,0 +1,53 @@
+cableguy
+Points
+100
+Solves
+4
+
+Description
+Hi, I went where you told me. To that abandoned old shack in the middle of nowhere. And you where right: I dug left of the trail and found the cable you told me. (I cut it through with the shovel, accidently.)
+
+In the cable there are 5 wires: A blank one and four wires in red isolation. They are marked with different dash codes. In total, I have the following wires to connect:
+
+Away of the shack:
+
+a0: blank wire
+a1: isolated, no marks
+a2: isolated, "dash, long pause"
+a3: isolated, "dash, dash, long pause"
+a4: isolated, "dash, dash, short pause"
+To the shack:
+
+b0: blank wire
+b1: isolated, no marks
+b2: isolated, "dash, long pause"
+b3: isolated, "dash, dash, long pause"
+b4: isolated, "dash, dash, short pause"
+Differential probe:
+
+probe1p: Positive terminal
+probe1n: Negative terminal
+I have many screw terminals, a huge supply of standard resistors and one digital differential probe. Now it's your job to tell me how to connect the wires to the diffprobe and to read the signals.
+
+nc 88.198.89.205 3001 (calc starts on eof)
+
+Input Format description:
+
+Connection Lines: terminal1 terminal2 [resistance/Ohm] (resistance defaults to 0)
+One empty Line
+Injected Current Lines: time/s current/A
+Example:
+
+probe1p a0
+probe1n b0
+a1 b1 10
+
+0.0 0.0
+0.1 0.5
+
+This connects the differential probe directly between the blank wires. Additionally the wire without marks are interconnected with 10 Ohm inbetween. There will be a current injected through the probes. The current will start at 0 and increase linearly to 0.5 Ampere after 100 milliseconds.
+
+Update: A previous version of this challenge allowed multiple semi-functional probes. This has been fixed. There was no advantage due to this.
+
+Submit Flag
+Flag

@@ -1,0 +1,12 @@
+angler
+Points
+300
+Solves
+29
+
+Description
+We managed to sniff an encrypted message and we also have the encryption algorithm. Yet we are unable to decrypt it. Maybe you can help?
+
+$ make
+
+$ ./encrypt.erl "cleartext"

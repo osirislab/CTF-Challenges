@@ -1,0 +1,16 @@
+HolyChallenge
+Points
+500
+Solves
+6
+
+Description
+Holy Challenge!
+
+Running on 88.198.89.193:2323. You should first solve it on your machine, the disk image is here: holy_challenge.img.xz
+
+Use qemu like this: qemu-system-x86_64 -m 32 -drive file=holy_challenge.img,index=0,media=disk -boot c -serial stdio
+
+
+Submit Flag
+Flag
