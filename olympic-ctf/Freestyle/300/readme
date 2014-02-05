@@ -1,0 +1,11 @@
+Freestyle 300
+Illegal Radio
+Author: psb
+
+We found illegal radio transmissions and saved them into dump for you. Please check it for data leakage.
+
+Flag format: CTF{..32 hexes..}
+
+HINT1: https://dl.dropboxusercontent.com/u/45174825/olympics.png
+
+HINT2: You know that it's FM radio transmission / IQ data dump.

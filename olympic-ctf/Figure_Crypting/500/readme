@@ -1,0 +1,11 @@
+Figure Crypting 500
+Remote Shellcoding Appliance
+Author: hellman
+
+go pwn this.
+
+task.py, exec.so
+
+nc 109.233.61.11 3123
+
+Flag format: CTF{..32 hexes..}

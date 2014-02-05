@@ -1,0 +1,11 @@
+Figure Crypting 300
+GuessGame
+Author: hellman
+
+Be careful, it's cheating!
+
+nc 109.233.61.11 3126
+
+Flag format: CTF{..32 hexes..}
+
+(nothing to dl)

@@ -1,0 +1,9 @@
+Figure Crypting 400
+PRITLSAMA
+Author: kyprizel
+
+Feel yourself a PRISM operator. session.pcap backbone.cap
+
+Flag format: CTF{..32 hexes..}
+
+Hint: Start with Ticket key ID and backbone offset

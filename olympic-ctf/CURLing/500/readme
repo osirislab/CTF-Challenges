@@ -1,0 +1,9 @@
+CURLing 500
+HFMS
+Author: kyprizel, tracer.tong
+
+We found some hockey field management system. Get the flag?
+
+Flag format: CTF{..32 hexes..}
+
+http://109.233.61.11:11180/
