@@ -1,0 +1,168 @@
+Fruits
+Pwning : 100
+
+Just Pwn it 54.218.22.41:37717 HINT: key is in key.txt HINT: yes, this challenge is 100 points. HINT: really.
+
+http://bostonkeyparty.net/challenges/fruits-b43fce47212336d695d97c690a9ab16f
+
+ 
+Submit
+Snapstagram(TM)
+Pwning : 350
+
+there is instagram and snapchat, there is room for one more! nc 54.186.6.201 8888
+
+http://bostonkeyparty.net/challenges/snapstagram-57385e2174203d66b871e269ef3893df.tar.gz
+
+ 
+Submit
+Dante's Inferno
+Other : 50
+
+I am an evil man
+
+http://bostonkeyparty.net/challenges/divine_comedy-0a7ab7132c24a772d52c124a7a5ee733.txt.torrent
+
+ 
+Submit
+R3V3
+Reversing : 250
+
+reverse this, I'm too tired to come up with a description
+
+http://bostonkeyparty.net/challenges/R3v3.exe-344b994acc318d220c0acbf3974a2a80.tar.gz
+
+ 
+Submit
+rarverseme
+Reversing : 350
+
+reverse this rar! (ITS A PATCHME)(UPDATE: there is some collision in terms of flags apparently. You'll know the right one when you see it) unrar p -inul rarverseme.rar
+
+http://bostonkeyparty.net/challenges/rarverseme-67da2b0c60e58e47dc38aa36b329b18b.rar
+
+ 
+Submit
+deepblue
+Pwning : 500
+
+Can you play chess ? 54.213.239.142 8888 hint: In chess, the queen can move *anywhere*...
+
+http://bostonkeyparty.net/challenges/deepblue-337848eb3f394204c016331a0e1b3b5a http://bostonkeyparty.net/challenges/libc.so.6-b14d340ca05368bcecaac69f112f07e1
+
+ 
+Submit
+Door 1
+Crypto : 500
+
+You need to open door no 5 in a secret facility. We have been trying to brute-force the door without success. One of our agents was able to infiltrate the control room and take a picture. The server is known to use some kind of problematic random number generator for the authentication. Open the door. The service is accessible on 54.186.6.201:8901, good luck with your mission. UPDATE/HINT: LFSR.
+
+http://bostonkeyparty.net/challenges/door1-2cf3f7c1a85d3a5eb2c922c5426435a3.jpg
+
+ 
+Submit
+MITM II: Electric Boogaloo
+Crypto : 200
+
+Chisa and Arisu are trying to tell each other two halves of a very important secret! They think they're safe, because they know how cryptography works---but can you learn their terrible, terrible secret? They're available as services at 54.186.6.201:12346 and 54.186.6.201:12345 respectively.
+
+http://bostonkeyparty.net/challenges/mitm2-632e4ecc332baba0943a0c6471dec2c6.tar.bz2
+
+ 
+Submit
+differential power
+Crypto : 400
+
+we hooked up a power meter to this encryption box. we don't know the key. that's what we want to know. you can encrypt any string of 8 characters on the service http://54.218.22.41:6969/string_to_encrypt
+
+http://bostonkeyparty.net/challenges/encrypt.asm-63541b9c26815fc4d16c7933efe5dd41
+
+ 
+Submit
+Functional High Five RPC Execution System for Remote High Fives
+Other : 200
+
+you guys really like web, eh?
+
+http://54.218.22.41:4878
+
+ 
+Submit
+sketchy
+Other : 125
+
+see if you can figure out whats going on...
+
+http://bostonkeyparty.net/challenges/sketchy.pcap
+
+ 
+Submit
+zen garden
+Pwning : 300
+
+be one with the machine nc 54.218.22.41 4766 hint: tomcr00se is complaining, so we got you a present http://bostonkeyparty.net/challenges/libc.so.6-9c8f19d9b0cf8d3703f76e4d2c95ceb0
+
+http://bostonkeyparty.net/challenges/zengarden-9b81162aea2ed4be3838faff59b3fd1b
+
+ 
+Submit
+vm
+Reversing : 300
+
+this vm needs a license to run. we don't have the license!
+
+http://bostonkeyparty.net/challenges/vm-2fbed3f5a894d56be6b2ba328f9e2411
+
+ 
+Submit
+Decrypt Img
+Reversing : 200
+
+We encrypted an image that we drew in paint, but lost the original! Can you recover it for us?
+
+http://bostonkeyparty.net/challenges/decryptimg-a921005aad6a6b6b445d0d754d54a311.zip
+
+ 
+Submit
+Hypercube
+Reversing : 300
+
+someone wrote a program to compute "C", but its compiled for Hypercube, which we don't have. Can you find "C" with math and computations. http://devkitpro.org/viewtopic.php?f=7&t=2915&view=previous might be of help to you
+
+http://bostonkeyparty.net/challenges/hypercube-5f456d4afe1cae8909b3ff9abba66c0a.dol
+
+ 
+Submit
+jailbreak
+Pwning : 400
+
+Exploit the console. 54.213.239.142 28468
+
+http://bostonkeyparty.net/challenges/jailbreak-b0175164b087fe9175b222df8f9d6cf6
+
+ 
+Submit
+Xorxes the Hash
+Crypto : 200
+
+Xorxes is a hash collision challenge. The goal is to find a second preimage for the input string "Klaatubaradanikto". Submit it as the flag. UPDATE: It has been pointed out that there are multiple solutions. The flag is the one with md5sum '7179926e4253a0b405090df67f62c543'. (Use `echo -n FLAG | md5sum'.) UPDATE THE SECOND: The solution is short.
+
+http://bostonkeyparty.net/challenges/xorxes-ad7b52380d3ec704b28954c80119789a.py
+
+ 
+Submit
+risc_emu
+Pwning : 100
+
+nobody cares about this service nc 54.218.22.41 4545
+
+http://bostonkeyparty.net/challenges/emu-c7c4671145c5bb6ad48682ec0c58b831
+
+ 
+Submit
+Mind your P's and Q's!
+Crypto : 100
+
+The flag has been split into several files, and encrypted under RSA-OAEP. Can you break ALL of the ciphertexts, and reassemble the key?
+
+http://bostonkeyparty.net/challenges/challenge-cd6d19866c42e274cd09604adaf4077b.tar.gz
