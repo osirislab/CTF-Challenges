@@ -1,0 +1,9 @@
+g++
+Reversing (200 pts)
+Although it seems like The Plague's projects are open source, it's not quite so simple to figure out what the source code does. We believe this project is supposed to print out secret information, but the KEY variable in the Makefile has been lost. Find the key, build the project, get us the information.
+
+
+Team	Points	Submission
+0xffa	208	in 11 hours
+pwnies	204	in 11 hours
+Stratum Auhuur	202	in 11 hours
